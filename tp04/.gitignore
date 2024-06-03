@@ -22,3 +22,10 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+
+# Yarn cache
+.yarn/cache
+
+# Yarn lock file
+yarn.lock
