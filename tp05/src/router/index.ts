@@ -1,13 +1,21 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
-import LoginView from "@/views/ChatRoomView.vue";
-import ChatRoomView from "@/views/ChatRoomView.vue";
+import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 
 const routes: Array<RouteRecordRaw> = [
-    { path: '/', name: 'Login', component: LoginView },
-    { path: '/chat', name: 'ChatRoom', component: ChatRoomView}
-];
+    { 
+        path: '/', 
+        redirect: '/login', //기본경로 로그인페이지
+    },
+    {
+        path: '/login',
+        component: () => import('@/views/Login/LoginView.vue'),
+        name: 'Login',
+    },
+    // 다른 라우트들...
+]
 
 const router = createRouter({
-    history: createWebHistory(process.env.BASE_URL),
+    history: createWebHistory(),
     routes,
-});
+})
+
+export default router
