@@ -1,36 +1,30 @@
 <script setup lang="ts">
-import { ref, defineEmits } from 'vue';
+import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import axios from '@/axios';
 
 const router = useRouter();
-const usrId = ref('');
-const pwd = ref('');
+const brdId = ref('');
+const brdName = ref('');
 
-const emit = defineEmits(['to-register']);
-
-const toRegister = () => {
-    console.log("toRegister Event");
-    emit('to-register');
-}
 
 const login = async () => {
     //데이터 담는 영역
-    const data = { usr_id : usrId.value, usr_pwd: pwd.value };
-    const isAuthenticated = await axios.post('/login', JSON.stringify(data));
-    if(isAuthenticated) {
-        alert('로그인 성공!');
-        //router.push('/board');
-    } else {
-        alert('로그인 실패');
-    }
+    //const data = { usr_id : usrId.value, usr_pwd: pwd.value };
+    
+    // const isAuthenticated = await axios.post('/login', JSON.stringify(data));
+    // if(isAuthenticated) {
+    //     alert('로그인 성공!');
+    //     router.push('/board');
+    // } else {
+    //     alert('로그인 실패');
+    // }
         
 };
-
 </script>
 
 <template>
-    <form @submit.prevent="login" class="login-form">
+    <!-- <form @submit.prevent="login" class="login-form">
         <div class="form-group">
             <label for="username" class="form-label">ID</label>
             <input type="text" id="username" v-model="usrId" class="form-input" />
@@ -40,8 +34,7 @@ const login = async () => {
             <input type="password" id="password" v-model="pwd" class="form-input" />
         </div>
         <button type="submit" class="btn-login">Login</button>
-        <button type="button" class="btn-register" @click="toRegister">Register</button>
-    </form>
+    </form> -->
 </template>
 
 <style scoped>
@@ -77,7 +70,7 @@ const login = async () => {
   justify-content: center;
 }
 
-.btn-login, .btn-register {
+.btn-login {
   width: 100%;
   padding: 10px;
   background-color: #007bff;
@@ -85,12 +78,9 @@ const login = async () => {
   border: none;
   border-radius: 3px;
   cursor: pointer;
-  margin-top:10px;
 }
 
-.btn-login:hover, .btn-register:hover {
+.btn-login:hover {
   background-color: #0056b3;
 }
-
-
 </style>

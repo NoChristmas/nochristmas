@@ -10,6 +10,12 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('@/views/Login/LoginView.vue'),
         name: 'Login',
     },
+    
+    {
+        path: '/board',
+        component: () => import('@/views/Board/BoardView.vue'),
+        name: 'Board'
+    },
     // 다른 라우트들...
 ]
 

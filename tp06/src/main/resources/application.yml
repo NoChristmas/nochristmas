@@ -1,14 +1,35 @@
-server:
-  port: 11000
-
 spring:
+  profiles:
+    active: local
+  
   datasource:
     url: jdbc:mysql://localhost:3306/nochristmas
     username: root
     password: 1230
     driver-class-name: com.mysql.cj.jdbc.Driver
+  devtools:
+    livereload:
+      enabled: true
+    restart:
+      enabled: true
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: true
   
+  
+      
+mybatis: 
+  type-aliases-package: vue.bk.srv.**.domain
+  mapper-locations: vue/bk/srv/**/persistence/*.xml
+    
+server:
+  port: 11000
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+#logging: 
+#  level:
+#    root: debug

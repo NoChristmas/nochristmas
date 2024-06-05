@@ -1,12 +1,11 @@
-// import service from './service';
-// import { CONTENT_TYPE } from '@/constants';
-// import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 
-// const request = (option:any) => {
-//     const { url, method, params, data, headers, responseType } = option;
+const instance = axios.create({
+    baseURL: 'http://localhost:11000/api/v1',
+    headers: {
+        'Content-Type': 'application/json',
+        
+    }
+});
 
-//     return service.request({
-
-//     });
-    
-// }
+export default instance;

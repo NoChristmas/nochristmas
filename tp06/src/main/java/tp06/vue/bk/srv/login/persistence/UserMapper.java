@@ -1,21 +1,17 @@
-package tp06.vue.bk.login.persistence;
+package tp06.vue.bk.srv.login.persistence;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
-import org.springframework.stereotype.Repository;
 
 import tp06.vue.bk.srv.login.domain.UserDto;
 
 @Mapper
-@Repository
-public class UserMapper {
+public interface UserMapper {
 	
-	@Select("SELECT * FROM users WHERE usr_id = ?")
-	public LinkedHashMap<String, Object> getUsers(UserDto userDto) {
-		LinkedHashMap<String, Object> res = new LinkedHashMap<>();
-		System.out.println(res.toString());
-		return res;
-	}
+	@Select("SELECT * FROM users WHERE usr_id = #{usr_id} AND usr_pwd = #{usr_pwd}")
+	public List<LinkedHashMap<String, Object>> getUsers(UserDto userDto);
+	
 }

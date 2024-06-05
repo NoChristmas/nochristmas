@@ -1,51 +1,46 @@
 <script setup lang="ts">
-import { ref, defineEmits } from 'vue';
-import { useRouter } from 'vue-router';
+import { ref, defineEmits, defineProps } from 'vue';
 import axios from '@/axios';
 
-const router = useRouter();
 const usrId = ref('');
 const pwd = ref('');
+const emit = defineEmits(['to-login']);
 
-const emit = defineEmits(['to-register']);
-
-const toRegister = () => {
-    console.log("toRegister Event");
-    emit('to-register');
-}
-
-const login = async () => {
-    //데이터 담는 영역
-    const data = { usr_id : usrId.value, usr_pwd: pwd.value };
-    const isAuthenticated = await axios.post('/login', JSON.stringify(data));
-    if(isAuthenticated) {
-        alert('로그인 성공!');
-        //router.push('/board');
+const register = async () => {
+    const data = { usr_id: usrId.value, usr_pwd: pwd.value };
+    
+    const isRegister = await axios.post("/register", JSON.stringify(data));
+    if(isRegister) {
+        //로그인으로 가자..
     } else {
-        alert('로그인 실패');
+        //실패 에러 가자..
     }
-        
+    
+};
+
+const toGoBack = () => {
+    emit('to-login');
 };
 
 </script>
 
 <template>
-    <form @submit.prevent="login" class="login-form">
+    <form @submit.prevent="register" class="register-form">
         <div class="form-group">
-            <label for="username" class="form-label">ID</label>
+            <label for="username" class="form-label">ID 등록</label>
             <input type="text" id="username" v-model="usrId" class="form-input" />
         </div>
         <div class="form-group">
-            <label for="password" class="form-label">Password</label>
+            <label for="password" class="form-label">Password 등록</label>
             <input type="password" id="password" v-model="pwd" class="form-input" />
         </div>
-        <button type="submit" class="btn-login">Login</button>
-        <button type="button" class="btn-register" @click="toRegister">Register</button>
+        <button type="submit" class="btn-register">회원가입</button>
+        <button type="button" class="btn-goback" @click="toGoBack">뒤로가기</button>
     </form>
 </template>
 
 <style scoped>
-.login-form {
+.register-form {
   width:300px;
   margin: 0 auto;
   padding: 20px;
@@ -77,7 +72,7 @@ const login = async () => {
   justify-content: center;
 }
 
-.btn-login, .btn-register {
+.btn-goback, .btn-register {
   width: 100%;
   padding: 10px;
   background-color: #007bff;
@@ -88,9 +83,7 @@ const login = async () => {
   margin-top:10px;
 }
 
-.btn-login:hover, .btn-register:hover {
+.btn-goback:hover, .btn-register:hover {
   background-color: #0056b3;
 }
-
-
 </style>
