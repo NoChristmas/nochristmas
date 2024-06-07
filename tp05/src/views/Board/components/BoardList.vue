@@ -1,14 +1,21 @@
 <script setup lang="ts">
+import { defineEmits } from 'vue';
 import { BoardType } from '@/api/board/types';
 
 const props = defineProps<{
-  boardsData: BoardType[];
+  boardsData: BoardType[]
 }>();
+
+const emits = defineEmits(['to-board-detail']);
+
+const handleBoardClick = (board: BoardType) => {
+  emits('to-board-detail', board.bd_no);
+}
 </script>
 
 <template>
   <div v-if="props.boardsData.length > 0" class="board-list">
-    <div v-for="board in props.boardsData" :key="board.bd_no" class="board-card">
+    <div v-for="board in props.boardsData" :key="board.bd_no" class="board-card" @click="handleBoardClick(board)">
       <div class="board-header">
         <h2>{{ board.bd_name }}</h2>
       </div>
@@ -43,6 +50,7 @@ const props = defineProps<{
 
 .board-card:hover {
   transform: scale(1.05);
+  cursor: pointer;
 }
 
 .board-header {
