@@ -4,8 +4,7 @@ export interface UserLoginType {
 }
   
 export interface UserType {
-    username: string
-    password: string
-    role: string
-    roleId: string
-}  
+    usr_no: number
+    usr_id: string
+    usr_time: string
+}

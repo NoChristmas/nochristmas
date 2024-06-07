@@ -1,86 +1,75 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
-import axios from '@/axios';
+import { BoardType } from '@/api/board/types';
 
-const router = useRouter();
-const brdId = ref('');
-const brdName = ref('');
-
-
-const login = async () => {
-    //데이터 담는 영역
-    //const data = { usr_id : usrId.value, usr_pwd: pwd.value };
-    
-    // const isAuthenticated = await axios.post('/login', JSON.stringify(data));
-    // if(isAuthenticated) {
-    //     alert('로그인 성공!');
-    //     router.push('/board');
-    // } else {
-    //     alert('로그인 실패');
-    // }
-        
-};
+const props = defineProps<{
+  boardsData: BoardType[];
+}>();
 </script>
 
 <template>
-    <!-- <form @submit.prevent="login" class="login-form">
-        <div class="form-group">
-            <label for="username" class="form-label">ID</label>
-            <input type="text" id="username" v-model="usrId" class="form-input" />
-        </div>
-        <div class="form-group">
-            <label for="password" class="form-label">Password</label>
-            <input type="password" id="password" v-model="pwd" class="form-input" />
-        </div>
-        <button type="submit" class="btn-login">Login</button>
-    </form> -->
+  <div v-if="props.boardsData.length > 0" class="board-list">
+    <div v-for="board in props.boardsData" :key="board.bd_no" class="board-card">
+      <div class="board-header">
+        <h2>{{ board.bd_name }}</h2>
+      </div>
+      <div class="board-body">
+        <p>작성자: {{ board.usr_id }}</p>
+      </div>
+    </div>
+  </div>
+  <div v-else class="no-data">
+    데이터가 없습니다.
+  </div>
 </template>
 
 <style scoped>
-.login-form {
-  width:300px;
-  margin: 0 auto;
+.board-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
   padding: 20px;
-  border: 1px solid #ccc;
+}
+
+.board-card {
+  background-color: #fff;
+  border: 1px solid #ddd;
   border-radius: 5px;
-  background-color: #f9f9f9;
-  
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.2s;
+  width: 300px;
 }
 
-.form-group {
-  margin-bottom: 15px;
-  display:flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+.board-card:hover {
+  transform: scale(1.05);
 }
 
-.form-label {
-  display: block;
-  margin-bottom: 5px;
-}
-
-.form-input {
-  width: 100%;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 3px;
-  align-items: center;
-  justify-content: center;
-}
-
-.btn-login {
-  width: 100%;
-  padding: 10px;
+.board-header {
   background-color: #007bff;
   color: #fff;
-  border: none;
-  border-radius: 3px;
-  cursor: pointer;
+  padding: 10px;
+  text-align: center;
 }
 
-.btn-login:hover {
-  background-color: #0056b3;
+.board-header h2 {
+  margin: 0;
+  font-size: 1.5em;
+}
+
+.board-body {
+  padding: 15px;
+}
+
+.board-body p {
+  margin: 0;
+  color: #333;
+}
+
+.no-data {
+  text-align: center;
+  font-size: 1.2em;
+  color: #888;
+  margin-top: 50px;
 }
 </style>

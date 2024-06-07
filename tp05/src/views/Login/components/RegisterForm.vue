@@ -9,11 +9,15 @@ const emit = defineEmits(['to-login']);
 const register = async () => {
     const data = { usr_id: usrId.value, usr_pwd: pwd.value };
     
-    const isRegister = await axios.post("/register", JSON.stringify(data));
+    const res = await axios.post("/register", data);
+
+    const isRegister = res.data.result == 'success'; 
+
     if(isRegister) {
-        //로그인으로 가자..
+      alert('등록 성공');
+      emit('to-login');
     } else {
-        //실패 에러 가자..
+      alert('등록 실패');  
     }
     
 };

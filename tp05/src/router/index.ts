@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
+import { useUserStore } from '@/store/modules/user';
 
 const routes: Array<RouteRecordRaw> = [
     { 
@@ -14,7 +15,8 @@ const routes: Array<RouteRecordRaw> = [
     {
         path: '/board',
         component: () => import('@/views/Board/BoardView.vue'),
-        name: 'Board'
+        name: 'Board',
+        meta: { requiresAuth: true}
     },
     // 다른 라우트들...
 ]
@@ -24,4 +26,17 @@ const router = createRouter({
     routes,
 })
 
-export default router
+router.beforeEach((to, from, next) => {
+    const userStore = useUserStore();
+    const isAuthenticated = userStore.getUserInfo;
+
+    if(to.meta.requiresAuth && !isAuthenticated) {
+        next('/login');
+    } else {
+        next();
+    }
+});
+
+
+
+export default router;

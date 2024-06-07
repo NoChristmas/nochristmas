@@ -1,6 +1,8 @@
 package tp06.vue.bk.srv.login.web;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
@@ -28,13 +30,38 @@ public class LoginController {
 	
 	@PostMapping("/login")
 	public ResponseEntity<ApiResponse> login(@RequestBody UserDto userDto, HttpServletRequest request, HttpServletResponse response) {
-		boolean isAuthenticated = userLoginService.authenticateUser(userDto);
+		System.out.println("login Controller");
+		
+		List<LinkedHashMap<String, Object>> res = userLoginService.findUser(userDto);
+		
+		boolean isAuthenticated = res.size() > 0;
+		System.out.println("res isAuth = " + isAuthenticated);
 		if(isAuthenticated) {
-			ApiResponse apiResponse = new ApiResponse("success", 200, "로그인 성공", null);
+			ApiResponse apiResponse = new ApiResponse("success", 200, "로그인 성공", res);
+			System.out.println("apiResponse = "+apiResponse);
 			return ResponseEntity.ok(apiResponse);
 		} else {
 			ApiResponse apiResponse = new ApiResponse("failure", 400, "로그인 실패", null);
-			return ResponseEntity.badRequest().body(apiResponse);
+			System.out.println("apiResponse = " + apiResponse);
+			return ResponseEntity.ok(apiResponse);
+		}
+		
+	}
+	
+	@PostMapping("/register")
+	public ResponseEntity<ApiResponse> register(@RequestBody UserDto userDto, HttpServletRequest request, HttpServletResponse response) {
+		List<LinkedHashMap<String, Object>> res = userLoginService.registUser(userDto);
+		
+		boolean isAuthenticated = res.size() > 0;
+		
+		if(isAuthenticated) {
+			ApiResponse apiResponse = new ApiResponse("success", 200, "회원가입 성공", res);
+			System.out.println("apiResponse = "+apiResponse);
+			return ResponseEntity.ok(apiResponse);
+		} else {
+			ApiResponse apiResponse = new ApiResponse("failure", 400, "회원가입 실패", null);
+			System.out.println("apiResponse = " + apiResponse);
+			return ResponseEntity.ok(apiResponse);
 		}
 		
 	}

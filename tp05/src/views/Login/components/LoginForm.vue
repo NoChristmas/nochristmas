@@ -2,6 +2,7 @@
 import { ref, defineEmits } from 'vue';
 import { useRouter } from 'vue-router';
 import axios from '@/axios';
+import { useUserStore } from '@/store/modules/user';
 
 const router = useRouter();
 const usrId = ref('');
@@ -9,22 +10,27 @@ const pwd = ref('');
 
 const emit = defineEmits(['to-register']);
 
+const userStore = useUserStore();
+
 const toRegister = () => {
-    console.log("toRegister Event");
     emit('to-register');
 }
 
 const login = async () => {
     //데이터 담는 영역
     const data = { usr_id : usrId.value, usr_pwd: pwd.value };
-    const isAuthenticated = await axios.post('/login', JSON.stringify(data));
+    const res = await axios.post('/login', data);
+    const isAuthenticated = res.data.result == 'success'; 
+    
     if(isAuthenticated) {
+        const userInfo = res.data.data[0];
+        userStore.setUserInfo(userInfo);
         alert('로그인 성공!');
-        //router.push('/board');
+        router.push('/board');
+        
     } else {
         alert('로그인 실패');
     }
-        
 };
 
 </script>

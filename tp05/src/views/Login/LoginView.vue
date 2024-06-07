@@ -1,4 +1,5 @@
 <script setup lang="ts">
+// host/login 페이지
 import { ref } from 'vue';
 import { LoginForm, RegisterForm } from './components';
 
@@ -16,8 +17,8 @@ const toLogin = () => {
 
 <template>
     <div id="loginContainer" class="login-container">
-        <LoginForm v-if="isLogin" :on-to-register="toRegister"></LoginForm>
-        <RegisterForm v-else :on-to-sss="toLogin" ></RegisterForm> <!--수정필요-->
+        <LoginForm v-if="isLogin" @to-register="toRegister"></LoginForm>
+        <RegisterForm v-else @to-login="toLogin" ></RegisterForm>
     </div>
 </template>
 

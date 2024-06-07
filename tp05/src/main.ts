@@ -1,11 +1,23 @@
 import 'vue/jsx';
 
 import { createApp } from 'vue'
+
 import App from './App.vue'
-import router from '@/router/index';
 
-const app = createApp(App);
+import router from '@/router';
 
-app.use(router);
+import { setupStore } from '@/store';
 
-app.mount('#app');
+const setupAll = async() => {
+    const app = createApp(App);
+    
+    setupStore(app)
+
+    app.use(router);
+
+    app.mount('#app');
+}
+
+setupAll();
+
+
